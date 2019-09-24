@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Vocab Quiz</title>
+
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.3/clipboard.min.js"></script>
+
+  </head>
+  <body class="bg-light">
+
+    <!-- navbar : outside of the container -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+      <a class="navbar-brand order-1 mr-0" href="/">(名称考え中)</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <!--
+          <a class="nav-item nav-link" href="/">ホーム<span class="sr-only">(current)</span></a>
+          -->
+          <a class="nav-item nav-link" href="/registration">新規登録</a>
+          <a class="nav-item nav-link" href="/login">ログイン</a>
+          <a class="nav-item nav-link" href="/vocabquiz">単語クイズ</a>
+              <!-- split danger button -->
+              <div class="btn-group">
+                <!--
+                <button type="button" class="btn btn-outline-secondary">クイズ</button>
+                -->
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only"></span>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/eiken1">英検1級</a>
+                  <a class="dropdown-item" href="/eiken-pre1">英検準1級</a>
+                  <a class="dropdown-item" href="/eiken2">英検2級</a>
+                  <a class="dropdown-item" href="/eiken2">英検3級</a>
+                  <a class="dropdown-item" href="/toeic">TOEIC</a>
+                  <a class="dropdown-item" href="/daily-mandarin">中国語(繁体)日常単語</a>
+                  <a class="dropdown-item" href="/mandarin1000">中国語(繁体)基本1000単語</a>
+                  <a class="dropdown-item" href="/taiwanese100">台湾語基本100単語</a>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+    </nav>
+    <!-- /navbar -->
+
+    <div class="container pt-4">
+
+
+      <!-- Title-->
+      <!--
+      <h1 class="display-4 text-center my-5 text-muted">Quiz</h1>
+      <lead><center>Welcome to Eiken Vocab Quiz</center></lead>
+      -->
+      <!-- /Title-->
+      <div class="container pt-3">
+
+
+      <!-- Step 2  -->
+      <form action="{{ url_for('eiken1_quiz_next') }}" method="POST">
+
+      <h1 class="display-5 text-center my-5 text-muted">英検1級単語クイズ</h1>
+
+      <center>
+        <div class="card"> <!-- border-white -->
+        <div class="card-body">
+          <h4 class="display-6 text-center my-5 text-muted">{{ ja_vocab }}</h4>
+          <input class="display-6 text-center my-5 text-muted" value="{{ ja_vocab }}" name='ja_def' type="hidden">
+          <input class="display-6 text-center my-5 text-muted" value="{{ en_answer }}" name='en_def' type="hidden">
+        </div>
+        </div>
+      </center>
+      <!-- /Step 2 -->
+
+
+      <!-- Step 3  -->
+      <h1 class="display-5 text-center my-5 text-muted">対応する英単語を選択</h1>
+
+
+
+
+        <!--
+        <textarea class="form-control" placeholder="what is an answer?" aria-label="With textarea"></textarea>
+        -->
+
+        <!--
+        Use https://ja.englishcentral.com/search?search=apply
+        -->
+
+
+        <div class="container pt-4 bg-white">
+          <div class="row">
+            {% for x in list_num: %}
+            <div class="col-md-6 col-lg-6">
+              <div class="card mb-3 border-white">
+                <div class="card-body">
+                  <center>
+                    {% if option_list[list_num[x]] == en_answer %}
+                      <input class='submit_button btn btn-outline-info btn-lg' role='button' aria-pressed='true' type='submit' value='{{ option_list[list_num[x]] }}' name='right_answer' id='correct_count'>
+
+                    {% else %}
+                      <input class='submit_button btn btn-outline-info btn-lg' role='button' aria-pressed='true' type='submit' value='{{ option_list[list_num[x]] }}' name='chosen_word' id='incorrect_count'>
+                    {% endif %}
+                  </center>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+        </form>
+      <!-- /Step 3 -->
+      <br>
+      {% if request.form["right_answer"] == request.form["en_def"] %}
+          <div class="alert alert-primary" role="alert">
+          {{ correct }}
+          </div>
+        {% else %}
+          <div class="alert alert-danger" role="alert">
+          {{ incorrect }}
+          </div>
+      {% endif %}
+        <div class="alert alert-primary" role="alert">
+        あなたが選んだ英単語：{{ request.form["right_answer"] }} {{ request.form["chosen_word"] }}
+        <br>答え【{{ request.form["ja_def"] }}:  {{ request.form["en_def"] }}】<br>
+        <!--
+        正解回数:<div id="disp_count">0</div>
+        -->
+        </div>
+
+
+      <h1 id="examples" class="display-5 text-center my-5 text-muted">実際の使われ方を動画で確認してみよう</h1>
+
+      <div class="list-group">
+      <b><a href="https://ja.englishcentral.com/search?search={{ request.form["right_answer"] }}{{ request.form["chosen_word"] }}" class="list-group-item list-group-item-action" target="_blank">
+      {{ request.form["right_answer"] }} {{ request.form["chosen_word"] }}</a></b>
+      </div>
+
+      {% for vocab in option_list: %}
+      <div class="list-group">
+      <b><a href="https://ja.englishcentral.com/search?search={{ vocab }}" class="list-group-item list-group-item-action" target="_blank">
+      {{ vocab }}</a></b>
+      </div>
+      {% endfor %}
+
+      <!--
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <h5 class="mb-1">
+                  <p class="mb-1"><a href="https://ja.englishcentral.com/search?search={{ vocab }}" target="_blank" class="text-info">{{ vocab }}</a></p>
+            </h5>
+            <span class="badge badge-pill badge-info p-3"><a href="https://ja.englishcentral.com/search/words?search={{ vocab }}" target="_blank" class="text-white">確認</a></span>
+          </div>
+        </li>
+      </ul>
+        -->
+        <br>
+        <center><lead>(EnglishCentral上に用例動画がない場合もあります)</lead></center>
+
+
+
+      <!-- signup form -->
+      <hr>
+      <div class="row py-4 text-muted">
+        <div class="col-md col-xl-5">
+          <p><strong>About Quiz</strong></p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        <div class="col-md col-xl-5 ml-auto">
+          <p><strong>Stay up-to-date on Quiz</strong></p>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Email">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button">Sign up</button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr><!-- /signup form -->
+
+    </div> <!-- /.container -->
+
+    <script>
+    window.onload = function() {
+      var count_disp = document.getElementById("disp_count");
+      var count_up = document.getElementById("correct_count");
+      var count_value = 0;
+
+      count_up.onlick = function(){
+        count_value += 1;
+        count_disp.innerHTML = count_value;
+      };
+    };
+    </script>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
