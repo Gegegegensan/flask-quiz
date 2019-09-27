@@ -5,7 +5,6 @@ from flask import *
 import random
 from random import shuffle
 import sqlite3
-import uuid
 
 from peewee import *
 
@@ -60,7 +59,7 @@ d = datetime.datetime.now() + datetime.timedelta(-30)
 numCorrect = 0
 numIncorrect = 0
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/ja', methods=["GET", "POST"])
 def eiken1_quiz():
 	quizzes = Quiz.select()
 	num = random.randrange(1, 100)
@@ -82,7 +81,7 @@ def eiken1_quiz():
 
 	return render_template('index.html', quizzes=quizzes, ja_vocab=ja_vocab, en_answer=en_answer, en_option1=en_option1, en_option2=en_option2, en_option3=en_option3, option_list=option_list, list_num=list_num, correct=correct, incorrect=incorrect)
 
-@app.route('/quiz', methods=["GET", "POST"])
+@app.route('/ja/quiz', methods=["GET", "POST"])
 def eiken1_quiz_next():
 	quizzes = Quiz.select()
 	num = random.randrange(1, 100)

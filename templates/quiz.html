@@ -20,7 +20,7 @@
     <!-- navbar : outside of the container -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-      <a class="navbar-brand order-1 mr-0" href="/">(名称考え中)</a>
+      <a class="navbar-brand order-1 mr-0" href="/ja">単語クイズ.site</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -29,8 +29,10 @@
           <!--
           <a class="nav-item nav-link" href="/">ホーム<span class="sr-only">(current)</span></a>
           -->
+          <!--
           <a class="nav-item nav-link" href="/registration">新規登録</a>
           <a class="nav-item nav-link" href="/login">ログイン</a>
+          -->
           <a class="nav-item nav-link" href="/vocabquiz">単語クイズ</a>
               <!-- split danger button -->
               <div class="btn-group">
@@ -42,6 +44,7 @@
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="/eiken1">英検1級</a>
+                  <!--
                   <a class="dropdown-item" href="/eiken-pre1">英検準1級</a>
                   <a class="dropdown-item" href="/eiken2">英検2級</a>
                   <a class="dropdown-item" href="/eiken2">英検3級</a>
@@ -49,6 +52,7 @@
                   <a class="dropdown-item" href="/daily-mandarin">中国語(繁体)日常単語</a>
                   <a class="dropdown-item" href="/mandarin1000">中国語(繁体)基本1000単語</a>
                   <a class="dropdown-item" href="/taiwanese100">台湾語基本100単語</a>
+                  -->
                 </div>
               </div>
         </div>
@@ -68,11 +72,35 @@
       <!-- /Title-->
       <div class="container pt-3">
 
+        <center>
+          <div class="card"> <!-- border-white -->
+          <div class="card-body">
+            Placeholder
+          </div>
+          </div>
+        </center>
 
       <!-- Step 2  -->
       <form action="{{ url_for('eiken1_quiz_next') }}" method="POST">
 
       <h1 class="display-5 text-center my-5 text-muted">英検1級単語クイズ</h1>
+
+      {% if request.form["right_answer"] == request.form["en_def"] %}
+          <div class="alert alert-primary" role="alert">
+          {{ correct }}
+          </div>
+        {% else %}
+          <div class="alert alert-danger" role="alert">
+          {{ incorrect }}
+          </div>
+      {% endif %}
+        <div class="alert alert-primary" role="alert">
+        あなたが選んだ英単語：{{ request.form["right_answer"] }} {{ request.form["chosen_word"] }}
+        <br>答え【{{ request.form["ja_def"] }}:  {{ request.form["en_def"] }}】<br>
+        <!--
+        正解回数:<div id="disp_count">0</div>
+        -->
+        </div>
 
       <center>
         <div class="card"> <!-- border-white -->
@@ -122,35 +150,18 @@
         </div>
         </form>
       <!-- /Step 3 -->
-      <br>
-      {% if request.form["right_answer"] == request.form["en_def"] %}
-          <div class="alert alert-primary" role="alert">
-          {{ correct }}
-          </div>
-        {% else %}
-          <div class="alert alert-danger" role="alert">
-          {{ incorrect }}
-          </div>
-      {% endif %}
-        <div class="alert alert-primary" role="alert">
-        あなたが選んだ英単語：{{ request.form["right_answer"] }} {{ request.form["chosen_word"] }}
-        <br>答え【{{ request.form["ja_def"] }}:  {{ request.form["en_def"] }}】<br>
-        <!--
-        正解回数:<div id="disp_count">0</div>
-        -->
-        </div>
 
 
-      <h1 id="examples" class="display-5 text-center my-5 text-muted">実際の使われ方を動画で確認してみよう</h1>
+      <h1 id="examples" class="display-5 text-center my-5 text-muted">辞書で確認</h1>
 
       <div class="list-group">
-      <b><a href="https://ja.englishcentral.com/search?search={{ request.form["right_answer"] }}{{ request.form["chosen_word"] }}" class="list-group-item list-group-item-action" target="_blank">
+      <b><a href="https://ejje.weblio.jp/content/{{ request.form["right_answer"] }}{{ request.form["chosen_word"] }}" class="list-group-item list-group-item-action" target="_blank">
       {{ request.form["right_answer"] }} {{ request.form["chosen_word"] }}</a></b>
       </div>
 
       {% for vocab in option_list: %}
       <div class="list-group">
-      <b><a href="https://ja.englishcentral.com/search?search={{ vocab }}" class="list-group-item list-group-item-action" target="_blank">
+      <b><a href="https://ejje.weblio.jp/content/{{ vocab }}" class="list-group-item list-group-item-action" target="_blank">
       {{ vocab }}</a></b>
       </div>
       {% endfor %}
@@ -168,7 +179,6 @@
       </ul>
         -->
         <br>
-        <center><lead>(EnglishCentral上に用例動画がない場合もあります)</lead></center>
 
 
 

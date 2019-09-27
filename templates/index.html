@@ -20,7 +20,7 @@
     <!-- navbar : outside of the container -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-      <a class="navbar-brand order-1 mr-0" href="/">Quiznet</a>
+      <a class="navbar-brand order-1 mr-0" href="/ja">単語クイズ.site</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -29,8 +29,10 @@
           <!--
           <a class="nav-item nav-link" href="/">ホーム<span class="sr-only">(current)</span></a>
           -->
+          <!--
           <a class="nav-item nav-link" href="/registration">新規登録</a>
           <a class="nav-item nav-link" href="/login">ログイン</a>
+          -->
           <a class="nav-item nav-link" href="/vocabquiz">単語クイズ</a>
               <!-- split danger button -->
               <div class="btn-group">
@@ -41,7 +43,8 @@
                   <span class="sr-only"></span>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="/eiken1">英検1級</a>
+                  <a class="dropdown-item" href="/eiken1">英検1級(100)</a>
+                  <!--
                   <a class="dropdown-item" href="/eiken-pre1">英検準1級</a>
                   <a class="dropdown-item" href="/eiken2">英検2級</a>
                   <a class="dropdown-item" href="/eiken2">英検3級</a>
@@ -49,6 +52,7 @@
                   <a class="dropdown-item" href="/daily-mandarin">中国語(繁体)日常単語</a>
                   <a class="dropdown-item" href="/mandarin1000">中国語(繁体)基本1000単語</a>
                   <a class="dropdown-item" href="/taiwanese100">台湾語基本100単語</a>
+                  -->
                 </div>
               </div>
         </div>
@@ -67,6 +71,14 @@
       -->
       <!-- /Title-->
       <div class="container pt-3">
+
+        <center>
+          <div class="card"> <!-- border-white -->
+          <div class="card-body">
+            Placeholder
+          </div>
+          </div>
+        </center>
 
 
       <!-- Step 2  -->
@@ -127,12 +139,12 @@
 
       {% for vocab in option_list: %}
       <div class="list-group">
-      <b><a href="https://ja.englishcentral.com/search?search={{ vocab }}" class="list-group-item list-group-item-action" target="_blank">
+      <b><a href="https://ejje.weblio.jp/content/{{ vocab }}" class="list-group-item list-group-item-action" target="_blank">
       {{ vocab }}</a></b>
       </div>
       {% endfor %}
 
-      <!--
+      <!-- https://ejje.weblio.jp/content/
       <ul class="list-group">
         <li class="list-group-item">
           <div class="d-flex justify-content-between">
@@ -143,9 +155,14 @@
           </div>
         </li>
       </ul>
+
+      OR
+
+      <div class="list-group">
+      <b><a href="https://ejje.weblio.jp/content/{{ vocab }}" class="list-group-item list-group-item-action" target="_blank">
+      {{ vocab }}</a></b>
+      </div>
         -->
-        <br>
-        <center><lead>(EnglishCentral上に用例動画がない場合は表示されません)</lead></center>
 
 
 
