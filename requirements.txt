@@ -7,7 +7,7 @@ chainmap==1.0.3
 chardet==3.0.4
 Click==7.0
 combomethod==1.0.12
-cryptography==2.7
+cryptography==3.2
 DateTime==4.3
 decorator==4.4.0
 et-xmlfile==1.0.1
