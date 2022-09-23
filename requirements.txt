@@ -35,7 +35,7 @@ pandas==0.23.4
 parsar==0.2.1
 peewee==3.9.5
 polib==1.1.0
-protobuf==3.8.0
+protobuf==3.18.3
 psycopg2==2.8.3
 psycopg2-binary==2.8.2
 PyAudio==0.2.11
